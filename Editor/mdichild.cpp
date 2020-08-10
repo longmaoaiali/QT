@@ -39,9 +39,9 @@ void MdiChild::newFile()
 //loadFile方法的参数是一个引用
 bool MdiChild::loadFile(const QString &filename)
 {
-    qDebug()<<"MdiChild::loadFile";
+    qDebug()<<"MdiChild::loadFile"<<filename;
     QFile file(filename);
-    if(file.open(QFile::ReadOnly | QFile::Text)) {
+    if(!file.open(QIODevice::ReadWrite|QIODevice::Text)) {
         QMessageBox::warning(this,tr("多文档编辑器"),
                              tr("无法读取文件 %1:\n %2.")
                              .arg(filename).arg(file.errorString()));
