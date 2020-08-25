@@ -16,7 +16,16 @@ public:
     ~Widget();
 
 private slots:
-    void on_sellTypeComboBox_currentIndexChanged(int index);
+
+    void on_sellTypeComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_sellBrandComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_sellNumSpinBox_valueChanged(int arg1);
+
+    void on_sellOkBtn_clicked();
+
+    void on_sellCancelBtn_clicked();
 
 private:
     Ui::Widget *ui;

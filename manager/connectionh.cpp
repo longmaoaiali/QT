@@ -1,19 +1,22 @@
 #include "connectionh.h"
-#include <QString>
-#include <QCoreApplication>
+#include <QDomDocument>
+
+
+QString connectionh::dataPath = "";
+
 connectionh::connectionh()
 {
-
+    dataPath = QCoreApplication::applicationDirPath();
 }
 
 bool connectionh::createConnection()
 {
-    QString APPDIR = QCoreApplication::applicationDirPath();
-    QString testResultPath = APPDIR + "/TestReport/";
-    QDir my_dir(testResultPath);
+    qDebug()<<"dataPath is " + dataPath;
+    QDir my_dir(dataPath);
     if (!my_dir.exists())
-        my_dir.mkpath(testResultPath);
-    testResultPath += "data.db";
+        my_dir.mkpath(dataPath);
+
+    QString testResultPath = dataPath + "/data.db";
 
     qDebug()<<"dataBase is " + testResultPath;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -44,6 +47,28 @@ bool connectionh::createConnection()
     query.exec(QString("insert into brand values('06', '格力', '空调', 2799, 70, 20, 50)"));
 
     qDebug()<<"insert data complete";
+    return true;
+}
+
+bool connectionh::createDailyXml()
+{
+    QString fileName = connectionh::dataPath + "DailyData.xml";
+    QFile file(fileName);
+    qDebug()<<"file is "+ connectionh::dataPath + "DailyData.xml";
+    if(file.exists())
+        return true;
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        return false;
+
+    QDomDocument doc;
+    QDomProcessingInstruction instruction;
+    instruction = doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
+    doc.appendChild(instruction);
+    QDomElement root = doc.createElement(QString("日销售清单"));
+    doc.appendChild(root);
+    QTextStream out(&file);
+    doc.save(out,4);
+    file.close();
     return true;
 }
 
