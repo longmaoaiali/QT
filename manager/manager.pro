@@ -14,9 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         widget.cpp \
-    connectionh.cpp
+    connectionh.cpp \
+    pieview.cpp \
+    logindialog.cpp
 
 HEADERS  += widget.h \
-    connectionh.h
+    connectionh.h \
+    pieview.h \
+    logindialog.h
 
-FORMS    += widget.ui
+FORMS    += widget.ui \
+    logindialog.ui
